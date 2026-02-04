@@ -9,7 +9,7 @@ const create = async (req, res) => {
 
   const paste = new PBmodel({
     content,
-    expiredAt: expiredAt ? Date.now() + expiredAt * 1000 : null,
+    expiredAt: expiredAt ? getCurrentTime(req) + expiredAt * 1000 : null,
     max_views,
     id: `paste_${Date.now()}`,
   });
@@ -73,7 +73,7 @@ const viewHTML = async (req, res) => {
   </html>`);
   }
 
-  if (paste.viewsLeft == 0) {
+  if (paste.max_views && paste.max_views < paste.currentViews) {
     return res.status(404).send(`<html>
     <title>Paste</title>
     <body>
