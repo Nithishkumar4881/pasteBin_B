@@ -9,7 +9,7 @@ const create = async (req, res) => {
 
   const paste = new PBmodel({
     content,
-    expiredAt: expiredAt ? getCurrentTime(req) + expiredAt * 1000 : null,
+    expiredAt: expiredAt ? Date.now() + expiredAt * 1000 : null,
     max_views,
     id: `paste_${Date.now()}`,
   });
