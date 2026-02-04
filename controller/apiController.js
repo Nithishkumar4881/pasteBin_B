@@ -17,7 +17,7 @@ const create = async (req, res) => {
 
   res.status(201).json({
     id: paste.id,
-    url: `http://localhost:8001/p/${paste.id}`,
+    url: `https://paste-bin-b.vercel.app/p/${paste.id}`,
   });
 };
 const healthz = async (req, res) => {
