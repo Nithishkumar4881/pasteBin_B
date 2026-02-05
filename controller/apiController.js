@@ -33,7 +33,7 @@ const view = async (req, res) => {
   if (!paste) {
     return res.status(404).json({ msg: "content id not match" });
   }
-  if (paste.max_views && (paste.max_views > paste.currentViews)) {
+  if (paste.max_views && (paste.max_views < paste.currentViews)) {
     return res.status(403).json({ msg: "you have reached out maximum views" });
   }
   if (paste.expiredAt !== null) {
@@ -54,7 +54,7 @@ const view = async (req, res) => {
           ? paste.max_views - paste.currentViews
           : "unlimitted",
     });
-  paste.currentViews = paste.currentViews + 1;
+  paste.currentViews = await paste.currentViews + 1;
   await paste.save().catch((e) => console.log(e.message));
 };
 
@@ -73,7 +73,7 @@ const viewHTML = async (req, res) => {
   </html>`);
   }
 
-  if (paste.max_views && (paste.max_views > paste.currentViews)) {
+  if (paste.max_views && (paste.max_views < paste.currentViews)) {
     return res.status(404).send(`<html>
     <title>Paste</title>
     <body>
@@ -99,7 +99,7 @@ const viewHTML = async (req, res) => {
       <h1 style="color:green">${paste.content}</h1>
     </body>
   </html>`);
-  paste.currentViews = paste.currentViews + 1;
+  paste.currentViews = await paste.currentViews + 1;
   await paste.save();
 };
 
