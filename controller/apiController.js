@@ -54,7 +54,7 @@ const view = async (req, res) => {
           ? paste.max_views - paste.currentViews
           : "unlimitted",
     });
-  paste.currentViews = await paste.currentViews + 1;
+  paste.currentViews = paste.currentViews + 1;
   await paste.save().catch((e) => console.log(e.message));
 };
 
@@ -99,7 +99,7 @@ const viewHTML = async (req, res) => {
       <h1 style="color:green">${paste.content}</h1>
     </body>
   </html>`);
-  paste.currentViews = await paste.currentViews + 1;
+  paste.currentViews = paste.currentViews + 1;
   await paste.save();
 };
 
