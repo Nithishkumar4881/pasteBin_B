@@ -73,7 +73,7 @@ const viewHTML = async (req, res) => {
   </html>`);
   }
 
-  if (paste.max_views && (paste.max_views < paste.currentViews)) {
+  if (paste.max_views && (paste.max_views > paste.currentViews)) {
     return res.status(404).send(`<html>
     <title>Paste</title>
     <body>
