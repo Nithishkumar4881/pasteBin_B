@@ -26,14 +26,15 @@ const healthz = async (req, res) => {
 
 const view = async (req, res) => {
   const pasteId = req.params.id;
-  console.log(pasteId);
-
+  
   const paste = await PBmodel.findOne({ id: pasteId });
+  console.log(paste);
+  
 
   if (!paste) {
     return res.status(404).json({ msg: "content id not match" });
   }
-  if (paste.max_views && (paste.max_views < paste.currentViews)) {
+  if (paste.max_views && (paste.max_views <= paste.currentViews)) {
     return res.status(403).json({ msg: "you have reached out maximum views" });
   }
   if (paste.expiredAt !== null) {
@@ -60,7 +61,7 @@ const view = async (req, res) => {
 
 const viewHTML = async (req, res) => {
   const pasteId = req.params.id;
-  console.log(pasteId);
+  // console.log(pasteId);
 
   const paste = await PBmodel.findOne({ id: pasteId });
 
@@ -68,12 +69,12 @@ const viewHTML = async (req, res) => {
     return res.status(404).header({ "content-type": "HTML" }).send(`<html>
     <title>Paste</title>
     <body>
-      <h1 style="color:red">content id not match</h1>
+      <h1 style="color:red">content id is not match</h1>
     </body>
   </html>`);
   }
 
-  if (paste.max_views && (paste.max_views < paste.currentViews)) {
+  if (paste.max_views && (paste.max_views <= paste.currentViews)) {
     return res.status(404).send(`<html>
     <title>Paste</title>
     <body>
